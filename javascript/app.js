@@ -1,5 +1,13 @@
 var app = angular.module('hackerNews', []);
 
+app.factory('posts', [function() {
+  var o = {
+    posts: []
+  };
+  // we return the o object so that any other Angular module that cares to inject it, can
+  return o;
+}]);
+
 app.controller('MainCtrl', ['$scope', function($scope){
     $scope.test = 'Hello world!';
 
@@ -29,3 +37,5 @@ app.controller('MainCtrl', ['$scope', function($scope){
     }
 
 }]);
+
+
