@@ -5,13 +5,31 @@
     <script src="javascript/app.js"></script>
   </head>
   <body ng-app="hackerNews" ng-controller="MainCtrl">
-    <!-- Cool, we know that test works -->
+    <h1>Hacker News</h1>
+    <!-- Cool, we know that test works
     <div>
       {{test}}
-    </div>
+    </div> -->
     <!-- Note built in filter below -->
     <div ng-repeat="post in posts | orderBy: '-upvotes'">
-      {{ post.title }} - upvotes: {{ post.upvotes }}
+      <span ng-click="incrementUpvotes(post)">^</span>
+      <a ng-show="post.link" href="{{post.link}}">
+        {{ post.title }}
+      </a>
+      <span ng-hide="post.link">
+        {{ post.title }}
+      </span>
+      - upvotes: {{ post.upvotes }}
     </div>
+    <!-- ng-submit gives added benefit of user being able to just hit enter to submit the post, rather than having to click the button -->
+    <!-- ng-model binds contents of text box to $scope.  This allows our controller to access the contents of the text box using $scope.title -->
+
+    <form ng-submit="addPost()">
+      <input type="text" placeholder="Title" ng-model="title"></input>
+      <br>
+      <input type="text" placeholder="Link" ng-model="link"></input>
+      <br>
+      <button type="submit">Post</button>
+    </form>
   </body>
 </html>
