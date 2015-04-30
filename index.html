@@ -61,7 +61,7 @@
 </div>
 </script>
 <script type="text/ng-template" id="/posts.html">
-  <a href="/home.html">Home</a>
+  <a href="/">Home</a>
   <div class="page-header">
     <h3>
       <a ng-show="post.link" href="{{post.link}}">
@@ -80,6 +80,16 @@
     {{comment.body}}
     </span>
   </div>
+
+  <form ng-submit="addComment()" style="margin-top:30px;">
+    <h3>Add a new comment</h3>
+
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Comment" ng-model="body"></input>
+  </div>
+  <button type="submit" class="btn btn-primary">Post</button>
+  </form>
+
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js"></script>
   </body>
