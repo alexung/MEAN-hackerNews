@@ -51,9 +51,35 @@ app.config([
         url:'/home',
         templateUrl: '/home.html',
         controller: 'MainCtrl'
+      })
+      .state('posts', {
+        url: '/posts/{id}',
+        templateUrl: '/posts.html',
+        controller: 'PostsCtrl'
       });
 
       $urlRouterProvider.otherwise('home');
+
+  }]);
+
+app.controller('PostsCtrl', [
+  '$scope',
+  '$stateParams',
+  'posts',
+  function($scope, $stateParams, posts){
+
+    $scope.posts.push({
+      title: $scope.title,
+      link: $scope.link,
+      upvotes: 0,
+      comments: [
+      {author: 'Alex', body: 'That is awesome!!! coool', upvotes: 0},
+      {author: 'Mike', body: 'You are doing an awesome journey', upvotes: 0}
+      ]
+    });
+
+    // now that we have a post variable in our controller, can display that info in our template
+    $scope.post = posts.posts[$stateParams.id];
 
   }]);
 

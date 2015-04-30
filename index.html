@@ -12,6 +12,7 @@
   <body ng-app="hackerNews" ng-controller="MainCtrl">
     <div class="row">
       <div class="col-md-6 col-md-offset-3">
+        <!-- This is where the template is rendered -->
         <ui-view></ui-view>
       </div>
     </div>
@@ -36,6 +37,9 @@
           {{ post.title }}
         </span>
       </span>
+      <span>
+        <a href="#/posts/{{$index}}">Comments</a>
+      </span>
     </div>
     <!-- ng-submit gives added benefit of user being able to just hit enter to submit the post, rather than having to click the button -->
    <!-- ng-model binds contents of text box to $scope.  This allows our controller to access the contents of the text box using $scope.title -->
@@ -55,6 +59,27 @@
 
   </div>
 </div>
+</script>
+<script type="text/ng-template" id="/posts.html">
+  <a href="/home.html">Home</a>
+  <div class="page-header">
+    <h3>
+      <a ng-show="post.link" href="{{post.link}}">
+      {{post.title}}
+      </a>
+      <span ng-hide="post.link">
+      {{post.title}}
+      </span>
+    </h3>
+  </div>
+
+  <div ng-repeat="comment in post.comments | orderBy: '-upvotes'">
+    <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(comment)"></span>
+    {{comment.upvotes}} - by {{comment.author}}
+    <span style="font-size:20px; margin-left:10px;">
+    {{comment.body}}
+    </span>
+  </div>
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js"></script>
   </body>
