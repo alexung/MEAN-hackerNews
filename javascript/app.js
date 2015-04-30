@@ -1,4 +1,4 @@
-var app = angular.module('hackerNews', []);
+var app = angular.module('hackerNews', ['ui.router']);
 
 app.factory('posts', [function() {
   var o = {
