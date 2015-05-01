@@ -6,3 +6,29 @@ body {
 a {
   color: #00B7FF;
 }
+
+h1 {
+  font-family: 'Rock Salt', cursive;
+}
+
+.glyphicon-thumbs-up {
+  cursor: pointer
+}
+
+.addComment {
+  margin-top: 30px;
+}
+
+.comments {
+  font-size:20px;
+  margin-left:10px;
+}
+
+.addPost {
+  margin-top:30px;
+}
+
+.postTitle {
+  font-size:20px;
+  margin-left:10px;
+}
