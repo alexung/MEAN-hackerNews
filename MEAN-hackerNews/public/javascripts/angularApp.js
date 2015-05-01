@@ -33,6 +33,13 @@ app.factory('posts', ['$http', function($http) {
   o.addComment = function(id, comment) {
     return $http.post('/posts/' + id + '/comments', comment);
   };
+
+  o.upvoteComment = function(post, comment) {
+    return $http.put('/posts/' + post._id + '/comments/' + comment._id + '/upvote')
+      .success(function(data){
+        comment.upvotes += 1;
+      });
+  };
   // we return the o object so that any other Angular module that cares to inject it, can
   return o;
 }]);
@@ -49,7 +56,7 @@ app.controller('MainCtrl', ['$scope', 'posts', function($scope, posts){
       posts.create({
           title: $scope.title,
           link: $scope.link,
-          upvotes: 0});
+      });
         // resets $scope.title to be empty after the fact
         $scope.title = '';
         $scope.link = '';
@@ -98,16 +105,6 @@ app.controller('PostsCtrl', [
   'post',
   function($scope, posts, post){
 
-    // $scope.posts.push({
-    //   title: $scope.title,
-    //   link: $scope.link,
-    //   upvotes: 0,
-    //   comments: [
-    //   {author: 'Alex', body: 'That is awesome!!! coool', upvotes: 0},
-    //   {author: 'Mike', body: 'You are doing an awesome journey', upvotes: 0}
-    //   ]
-    // });
-
     // now that we have a post variable in our controller, can display that info in our template
     $scope.post = post;
 
@@ -116,13 +113,16 @@ app.controller('PostsCtrl', [
 
       posts.addComment(post._id, {
         body: $scope.body,
-        author: 'user',
+        author: 'user'
       }).success(function(comment){
         $scope.post.comments.push(comment);
       });
-
       $scope.body = '';
-    }
+    };
+
+      $scope.incrementUpvotes = function(comment) {
+        posts.upvoteComment(post, comment);
+      };
 
   }]);
 
