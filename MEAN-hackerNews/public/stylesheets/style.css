@@ -1,18 +1,32 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px "Patua One", Helvetica, Arial, sans-serif;
+  background-color: black;
 }
 
 a {
   color: #00B7FF;
 }
 
-h1 {
-  font-family: 'Rock Salt', cursive;
+.siteTitle {
+  font-size: 50px;
+  color: white;
+}
+
+.siteTitle:link {
+  color: white;
+}
+
+.siteTitle:visited {
+  color: white;
 }
 
 .glyphicon-thumbs-up {
   cursor: pointer
+}
+
+.white {
+  color: white;
 }
 
 .addComment {
@@ -22,6 +36,7 @@ h1 {
 .comments {
   font-size:20px;
   margin-left:10px;
+  color: white;
 }
 
 .addPost {
