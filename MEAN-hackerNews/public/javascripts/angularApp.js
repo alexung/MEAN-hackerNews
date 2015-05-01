@@ -10,6 +10,12 @@ app.factory('posts', ['$http', function($http) {
       angular.copy(data, o.posts);
     });
   };
+
+  o.create = function(post){
+    return $http.post('/posts', post).success(function(data){
+      o.posts.push(data);
+    });
+  };
   // we return the o object so that any other Angular module that cares to inject it, can
   return o;
 }]);
@@ -29,16 +35,18 @@ app.controller('MainCtrl', ['$scope', 'posts', function($scope, posts){
 
     $scope.addPost = function() {
       // below prevents a user from entering a blank post.  No forcing user to enter in a link, however.
-        if(!$scope.title || $scope.title === "") {
-          return;
-        }
-        $scope.posts.push({title: $scope.title,
+      if(!$scope.title || $scope.title === "") {
+        return;
+      }
+
+      posts.create({
+          title: $scope.title,
           link: $scope.link,
           upvotes: 0});
         // resets $scope.title to be empty after the fact
         $scope.title = '';
         $scope.link = '';
-    }
+      }
 
     $scope.incrementUpvotes = function(post) {
       post.upvotes += 1;
