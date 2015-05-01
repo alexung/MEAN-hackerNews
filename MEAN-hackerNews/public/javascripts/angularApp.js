@@ -23,6 +23,12 @@ app.factory('posts', ['$http', function($http) {
         post.upvotes += 1;
       });
   };
+
+  o.get = function(id) {
+    return $http.get('/posts/' + id).then(function(res){
+      return res.data;
+    });
+  };
   // we return the o object so that any other Angular module that cares to inject it, can
   return o;
 }]);
@@ -80,7 +86,12 @@ app.config([
       .state('posts', {
         url: '/posts/{id}',
         templateUrl: '/posts.html',
-        controller: 'PostsCtrl'
+        controller: 'PostsCtrl',
+        resolve: {
+          post: ['$stateParams', 'posts', function($stateParams, posts) {
+            return posts.get($stateParams.id);
+          }]
+        }
       });
 
       $urlRouterProvider.otherwise('home');
@@ -89,22 +100,22 @@ app.config([
 
 app.controller('PostsCtrl', [
   '$scope',
-  '$stateParams',
   'posts',
-  function($scope, $stateParams, posts){
+  'post',
+  function($scope, posts, post){
 
-    $scope.posts.push({
-      title: $scope.title,
-      link: $scope.link,
-      upvotes: 0,
-      comments: [
-      {author: 'Alex', body: 'That is awesome!!! coool', upvotes: 0},
-      {author: 'Mike', body: 'You are doing an awesome journey', upvotes: 0}
-      ]
-    });
+    // $scope.posts.push({
+    //   title: $scope.title,
+    //   link: $scope.link,
+    //   upvotes: 0,
+    //   comments: [
+    //   {author: 'Alex', body: 'That is awesome!!! coool', upvotes: 0},
+    //   {author: 'Mike', body: 'You are doing an awesome journey', upvotes: 0}
+    //   ]
+    // });
 
     // now that we have a post variable in our controller, can display that info in our template
-    $scope.post = posts.posts[$stateParams.id];
+    $scope.post = post;
 
     $scope.addComment = function(){
       if($scope.body === '') {return;}
