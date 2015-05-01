@@ -1,5 +1,36 @@
 var app = angular.module('hackerNews', ['ui.router']);
 
+app.config([
+  '$stateProvider',
+  '$urlRouterProvider',
+  function($stateProvider, $urlRouterProvider){
+
+    $stateProvider
+      .state('home', {
+        url:'/home',
+        templateUrl: '/home.html',
+        controller: 'MainCtrl',
+        resolve: {
+          postPromise: ['posts', function(posts){
+            return posts.getAll();
+          }]
+        }
+      })
+      .state('posts', {
+        url: '/posts/{id}',
+        templateUrl: '/posts.html',
+        controller: 'PostsCtrl',
+        resolve: {
+          post: ['$stateParams', 'posts', function($stateParams, posts) {
+            return posts.get($stateParams.id);
+          }]
+        }
+      });
+
+      $urlRouterProvider.otherwise('home');
+
+  }]);
+
 app.factory('posts', ['$http', function($http) {
   var o = {
     posts: []
@@ -50,6 +81,7 @@ app.controller('MainCtrl', ['$scope', 'posts', function($scope, posts){
     $scope.addPost = function() {
       // below prevents a user from entering a blank post.  No forcing user to enter in a link, however.
       if(!$scope.title || $scope.title === "") {
+        alert("Gotta type in that title!");
         return;
       }
 
@@ -68,36 +100,6 @@ app.controller('MainCtrl', ['$scope', 'posts', function($scope, posts){
 
 }]);
 
-app.config([
-  '$stateProvider',
-  '$urlRouterProvider',
-  function($stateProvider, $urlRouterProvider){
-
-    $stateProvider
-      .state('home', {
-        url:'/home',
-        templateUrl: '/home.html',
-        controller: 'MainCtrl',
-        resolve: {
-          postPromise: ['posts', function(posts){
-            return posts.getAll();
-          }]
-        }
-      })
-      .state('posts', {
-        url: '/posts/{id}',
-        templateUrl: '/posts.html',
-        controller: 'PostsCtrl',
-        resolve: {
-          post: ['$stateParams', 'posts', function($stateParams, posts) {
-            return posts.get($stateParams.id);
-          }]
-        }
-      });
-
-      $urlRouterProvider.otherwise('home');
-
-  }]);
 
 app.controller('PostsCtrl', [
   '$scope',
