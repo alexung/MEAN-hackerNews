@@ -8,4 +8,12 @@ var PostSchema = new mongoose.Schema({
 
 });
 
+// upvote method
+PostSchema.methods.upvote = function(cb) {
+  this.upvotes += 1;
+  this.save(cb);
+};
+
 mongoose.model('Post', PostSchema);
+
+

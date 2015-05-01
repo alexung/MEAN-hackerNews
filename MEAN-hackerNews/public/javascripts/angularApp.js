@@ -1,10 +1,15 @@
 var app = angular.module('hackerNews', ['ui.router']);
 
-app.factory('posts', [function() {
+app.factory('posts', ['$http', function($http) {
   var o = {
     posts: []
   };
 
+  o.getAll = function(){
+    return $http.get('/posts').success(function(data){
+      angular.copy(data, o.posts);
+    });
+  };
   // we return the o object so that any other Angular module that cares to inject it, can
   return o;
 }]);
@@ -50,7 +55,12 @@ app.config([
       .state('home', {
         url:'/home',
         templateUrl: '/home.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        resolve: {
+          postPromise: ['posts', function(posts){
+            return posts.getAll();
+          }]
+        }
       })
       .state('posts', {
         url: '/posts/{id}',
@@ -94,4 +104,6 @@ app.controller('PostsCtrl', [
     }
 
   }]);
+
+
 
