@@ -100,5 +100,7 @@ router.get('/posts/:post', function(req, res, next){
   });
 });
 
+
+
 module.exports = router;
 

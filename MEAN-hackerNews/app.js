@@ -62,6 +62,8 @@ app.use(function(err, req, res, next) {
   });
 });
 
+app.use(express.static(__dirname + '/public'));
+
 
 module.exports = app;
 
