@@ -12,6 +12,10 @@ a {
   font-size: 15px;
 }
 
+/*.tall {
+  background-size: 100% 100%;
+}*/
+
 .siteTitle {
   font-size: 50px;
   color: white;
